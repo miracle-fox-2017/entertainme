@@ -4,8 +4,10 @@ const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-
+const responseTime = require('response-time')
 const index = require('./routes/index');
+const redis = require("redis")
+const cache = redis.createClient();
 // const users = require('./routes/users');
 
 const app = express();
@@ -19,6 +21,7 @@ app.set('view engine', 'jade');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(responseTime())
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
