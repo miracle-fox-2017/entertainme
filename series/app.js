@@ -10,14 +10,12 @@ mongoose.connection.openUri('mongodb://127.0.0.1:27017', (err) => {
   console.log('Database Connected');
 })
 
-const movies = require('./routes/movies')
+const series = require('./routes/series')
 
 app.use(cors())
 app.use(logger('dev'))
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use('/movies', movies)
+app.use('/series', series)
 
-app.get('/', (req, res) => res.send('Hello World!'))
-
-app.listen(3001, () => console.log('Example app listening on port 3001!'))
+app.listen(3002, () => console.log('Example app listening on port 3002!'))
