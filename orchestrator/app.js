@@ -22,7 +22,7 @@ const cache = (req, res, next) => {
     }
     if (data !== null) {
       console.log('datanya ada gak?')
-      res.send(data)
+      res.send(JSON.parse(data))
     } else {
       next()
     }
@@ -34,6 +34,7 @@ const responds = (data) => {
   return JSON.stringify(data)
 }
 
+// belum ke solve
 const getMoviesSeries = (req, res) => {
   console.log('get All Entertain')
   axios.get('http://localhost:3001/movies')
@@ -53,8 +54,39 @@ const getMoviesSeries = (req, res) => {
   })
 }
 
+const ccc =(req, res, next) => {
+  client.get('eternal', function (err, data){
+    if (err) throw err
+    if (data !== null) {
+      res.sen(JSON.parse(data))
+    } else {
+      next()
+    }
+  })
+}
 
 
+  const getMovies = () => axios.get('http://localhost:3001/movies')
+  const getSeries = () => axios.get('http://localhost:3002/series')
+
+  const entertainMe = async (req, res) => {
+    try {
+      const Movie = await getMovies()
+      const Serie = await getSeries()
+      client.setex('eternal', 30, JSON.stringify({ movie: Movie.data.movies, serie: Serie.data.series}))
+      res.send({
+        movie: Movie.data.movies,
+        serie: Serie.data.series
+      })
+    }
+    catch (err) {
+      res.send(err)
+    }
+  } 
+
+
+
+app.get('/orchestra', ccc, entertainMe)
 app.get('/hiburan', cache, getMoviesSeries)
 app.get('/', (req, res) => {
   res.send('Hello Yon')
