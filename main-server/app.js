@@ -7,18 +7,18 @@ const app = require('express')(),
 cache.on('error', err => {
   console.log(`Error: ${err}`)
 })
-      
+
 app.use(responseTime())
-app.get('/entertainme', async (req, res) => {
+app.get('/entertainme', (req, res) => {
   try {
-    const movies = await Axios.get('http://localhost:3001/movie')
-    const series = await Axios.get('http://localhost:3002/tv')
-    cache.get('entertainme', function(err, data) {
-      console.log(typeof data, 'INI ENTTERTAIN')
+    cache.get('entertainme', async (err, data) => {
+      // console.log(new Date(), 'INI ENTTERTAIN')
       if (data) {
+          console.log('LAMA dari redis', new Date())
           res.json(JSON.parse(data))
-          console.log('LAMA')
       } else {
+        const movies = await Axios.get('http://localhost:3001/movie')
+        const series = await Axios.get('http://localhost:3002/tv')
         const data = {
           movies: movies.data,
           series: series.data
