@@ -6,7 +6,11 @@ const movieSchema = new Schema({
     overview: String,
     title     : String,
     popularity: Number,
-    tag: Array
+    tag: Array,
+    version: {
+    	type: Number,
+    	default: 0
+    }
 })
 
 const movieModel = mongoose.model('movie', movieSchema);

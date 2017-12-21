@@ -6,7 +6,7 @@ const seriesSchema = new Schema({
     overview: String,
     title     : String,
     popularity: Number,
-    tag: Array
+    tag: Array   
 })
 
 const seriesModel = mongoose.model('movie', seriesSchema);
