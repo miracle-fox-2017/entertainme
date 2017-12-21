@@ -11,7 +11,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:false}))
 app.use(morgan('dev'))
 
-const getAllListMovie = (req, res) => {
+const getAllListFilm= (req, res) => {
     axios.get(`http://localhost:3001/api/movie`)
     .then(movie => {
         axios.get(`http://localhost:3002/api/tvseries`)
@@ -37,7 +37,37 @@ const cek = (req, res, next) => {
     });
 }
 
-app.get('/', cek, getAllListMovie)
+app.get('/film', cek, getAllListFilm)
+
+
+
+// BELAJAR ASYNC & AWAIT
+
+app.get('/async', (req,res) => {
+const movie = () => axios.get('http://localhost:3001/api/movie')
+const tvseries = () => axios.get('http://localhost:3002/api/tvseries')
+
+const getAllFilm = async () => {
+  try {
+    const iniMovie = await movie()
+    const iniTvSeries = await tvseries()
+    const gabung = {
+      iniMovie: iniMovie.data,
+      iniTvSeries: iniTvSeries.data
+    }
+    client.setex('listfilmbro', 20, JSON.stringify(gabung))
+    res.send({
+      movies: iniMovie.data,
+      tvseries: iniTvSeries.data
+    });
+  }
+  catch (err) {
+    res.send(err)
+  }
+}
+getAllFilm()
+})
+
 
 app.listen('3000', () => {
   console.log('server 3000 jalan');
