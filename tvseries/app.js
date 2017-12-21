@@ -11,7 +11,7 @@ app.use(bodyParser.json())
 
 const tvseries = require('./routes/tvseries')
 
-app.use('/api', tvseries)
+app.use('/', tvseries)
 
 app.listen(3002, () => {
   console.log('Listening on port 3002...')

@@ -11,7 +11,7 @@ app.use(bodyParser.json())
 
 const movies = require('./routes/movies')
 
-app.use('/api', movies)
+app.use('/', movies)
 
 app.listen(3001, () => {
   console.log('Listening on port 3001...')

@@ -6,7 +6,7 @@ module.exports = {
   getAll (req, res) {
     TvSeries.find()
     .then(response => {
-      res.send({
+      res.json({
         info: 'tv series found successfully',
         data: response
       })

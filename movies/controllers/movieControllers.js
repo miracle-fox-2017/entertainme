@@ -6,7 +6,7 @@ module.exports = {
   getAll (req, res) {
     Movie.find()
     .then(response => {
-      res.send({
+      res.json({
         info: 'movies found successfully',
         data: response
       })
