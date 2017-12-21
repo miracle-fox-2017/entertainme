@@ -1,6 +1,7 @@
 const Movie = require('../models/movie')
 const Tag = require('../models/tag')
-const tagCreator = require('../helpers/tagCreator')
+const axios = require('axios')
+// const tagCreator = require('../helpers/tagCreator')
 
 module.exports = {
   getAll (req, res) {
@@ -16,10 +17,18 @@ module.exports = {
 
   create (req, res) {
     Movie.create(req.body)
-    .then(response => {
+    .then(newMovie => {
+      axios.post('http://localhost:3000/update/cache',{
+        source: 'movies',
+        data: JSON.stringify(newMovie)
+      }).then(() => {
+        console.log('cache updated')
+      }).catch(err => {
+        console.log(err)
+      })
       res.send({
         info: 'add new movie successfully',
-        data: response
+        data: newMovie
       })
     })
     .catch(err => res.status(500).send(err))

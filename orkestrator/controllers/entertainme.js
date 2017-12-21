@@ -68,15 +68,15 @@ module.exports = {
         let entertainData = JSON.parse(data)
         entertainData[source].data.push(newData)
         client.setex('entertainme', 100, JSON.stringify(entertainData))
-        client.get(source, (err, data) => { 
-          if(data){
-            let dataParse = JSON.parse(data)
-            dataParse.data.push(newData)
-            client.setex(source, 100, JSON.stringify(dataParse))
-          }
-        })
       } else {
         console.log(err)
+      }
+    })
+    client.get(source, (err, data) => { 
+      if(data){
+        let dataParse = JSON.parse(data)
+        dataParse.data.push(newData)
+        client.setex(source, 100, JSON.stringify(dataParse))
       }
     })
   }
