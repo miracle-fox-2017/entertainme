@@ -1,0 +1,29 @@
+{
+  "name": "entertainme",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "movies": "nodemon movies/app.js",
+    "series": "nodemon series/app.js",
+    "orchestrator": "nodemon orchestrator/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tomybudiman/entertainme.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tomybudiman/entertainme/issues"
+  },
+  "homepage": "https://github.com/tomybudiman/entertainme#readme",
+  "dependencies": {
+    "axios": "^0.17.1",
+    "express": "^4.16.2",
+    "mongoose": "^4.13.7",
+    "redis": "^2.8.0",
+    "response-time": "^2.3.2"
+  }
+}
