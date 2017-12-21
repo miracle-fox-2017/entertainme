@@ -1,3 +1,6 @@
+require('dotenv').config()
+
+const mongoose = require('mongoose').connect(process.env.DB_URL);
 const express = require('express');
 const path = require('path');
 const favicon = require('serve-favicon');
@@ -23,7 +26,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/entertainme', indexRoute);
+app.use('/', indexRoute);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
