@@ -35,9 +35,7 @@ app.get('/entertainme/cache',(req,res) => {
         series : getSeries.data
       }
       cache.set('entertainment',JSON.stringify(dataJson));
-      cache.get('entertainment',(err,data) => {
-        res.json(JSON.parse(data));
-      });
+      res.json(dataJson);
     }else{
       cache.get('entertainment',(err,data) => {
         res.json(JSON.parse(data));
