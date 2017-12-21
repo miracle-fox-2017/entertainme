@@ -1,18 +1,20 @@
 //require model
 const Movie = require('../models/movieModel')
 
-const getMovie = (req, res) => {
-  Movie.find()
-  .then(movies => {
+const getMovie = async (req, res) => {
+  try {
+    const movies = await Movie.find()
     res.send({
       status: "OK",
     	info: "movies found successfully",
       data: movies
     })
-  })
-  .catch(err => {
-    res.send(err)
-  })
+  } catch (err) {
+    res.status(500).send({
+      status: 'cannot get movie',
+      msg: err
+    })
+  }
 }
 
 const addMovie = (req, res) => {

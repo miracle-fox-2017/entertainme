@@ -8,10 +8,6 @@ cache.on("error", function (err) {
   console.log("Error " + err);
 });
 
-
-const getMovie = () => axios.get('http://localhost:3001/movie')
-const getTv = () => axios.get('http://localhost:3002/tv')
-
 const entertain = (req, res) => {
   const getEntertain = () => {
     try {
@@ -27,8 +23,8 @@ const entertain = (req, res) => {
               tvs: dataTv
             })
           } else {
-            const movies = await getMovie()
-            const tvs = await getTv()
+            const movies = await axios.get('http://localhost:3001/movie')
+            const tvs = await axios.get('http://localhost:3002/tv')
             cache.set('movies', JSON.stringify(movies.data), 'EX', 5)
             cache.set('tv', JSON.stringify(tvs.data), 'EX', 5)
             res.json({

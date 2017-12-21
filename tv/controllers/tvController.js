@@ -1,15 +1,20 @@
 //require model
 const Tv = require('../models/tvModel')
 
-const getTv = (req, res) => {
-  Tv.find()
-  .then(tvs => {
+const getTv = async (req, res) => {
+  try {
+    const tvs = await Tv.find()
     res.send({
       status: "OK",
     	info: "tv found successfully",
     	data: tvs
     })
-  })
+  } catch (err) {
+    res.status(500).send({
+      status: "cannot get tv",
+      msg: err
+    })
+  }
 }
 
 const addTv = (req, res) => {
