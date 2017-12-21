@@ -1,6 +1,8 @@
 const Movie = require('../models/movieModel')
 const mongoose = require('mongoose')
-
+const redis = require("redis");
+const client = redis.createClient();
+const axios = require('axios');
 
 const getMovie = (req,res) => {
   Movie.find({})
@@ -11,6 +13,13 @@ const getMovie = (req,res) => {
     res.status(500).send(err)
   })
 }
+
+const getAPIMovie = (req, res) => {
+  axios.get(`http://localhost:3000/film`)
+  .then(data => {
+    client.setex('listfilmbro', 20, JSON.stringify(data))
+  })
+};
 
 const postMovie = (req,res) => {
   Movie.create({
@@ -29,7 +38,42 @@ const postMovie = (req,res) => {
   })
 }
 
+const editMovie = (req,res) => {
+  Movie.update({
+    _id:req.params.id
+  },{
+    title: req.body.title,
+    overview: req.body.overview,
+    poster_path: req.body.poster_path,
+    popularity: req.body.popularity,
+    tag: req.body.tag
+  })
+  .then((data)=>{
+    res.send(data)
+    getAPIMovie()
+  })
+  .catch((err)=>{
+    res.send(err)
+  })
+}
+
+const deleteMovie = (req,res) => {
+  Movie.remove({
+    _id:req.params.id
+  })
+  .then((data)=>{
+    res.send(data)
+    getAPIMovie()
+  })
+  .catch((err)=>{
+    res.send(err)
+  })
+}
+
+
 module.exports = {
   getMovie,
-  postMovie
+  postMovie,
+  editMovie,
+  deleteMovie
 }
