@@ -1,7 +1,7 @@
 var router = require('express').Router();
-const listAll = require('../controllers/entertainme')
+const controller = require('../controllers/entertainme')
 
 /* GET users listing. */
-router.get('/', listAll)
+router.get('/', controller.listAll)
 
 module.exports = router;
