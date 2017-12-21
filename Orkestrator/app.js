@@ -37,17 +37,26 @@ const cek = (req, res, next) => {
     });
 }
 
+const cek2 = (req, res, next) => {
+    client.get('listfilmbro', function (err, data) {
+        if (err) throw err;
+        if (data != null) {
+            res.send(JSON.parse(data));
+        } else {
+            next();
+        }
+    });
+}
+
+
 app.get('/film', cek, getAllListFilm)
 
 
-
 // BELAJAR ASYNC & AWAIT
-
-app.get('/async', (req,res) => {
 const movie = () => axios.get('http://localhost:3001/api/movie')
 const tvseries = () => axios.get('http://localhost:3002/api/tvseries')
 
-const getAllFilm = async () => {
+const getAllFilm = async (req,res) => {
   try {
     const iniMovie = await movie()
     const iniTvSeries = await tvseries()
@@ -55,7 +64,7 @@ const getAllFilm = async () => {
       iniMovie: iniMovie.data,
       iniTvSeries: iniTvSeries.data
     }
-    client.setex('listfilmbro', 20, JSON.stringify(gabung))
+    client.setex('listfilmbro', 10, (JSON.stringify(gabung)))
     res.send({
       movies: iniMovie.data,
       tvseries: iniTvSeries.data
@@ -65,9 +74,8 @@ const getAllFilm = async () => {
     res.send(err)
   }
 }
-getAllFilm()
-})
 
+app.get('/tes', cek2, getAllFilm)
 
 app.listen('3000', () => {
   console.log('server 3000 jalan');

@@ -49,11 +49,11 @@ const editMovie = (req,res) => {
     tag: req.body.tag
   })
   .then((data)=>{
-    res.send(data)
+    res.status(200).send(data)
     getAPIMovie()
   })
   .catch((err)=>{
-    res.send(err)
+    res.status(500).send(err)
   })
 }
 
@@ -62,11 +62,11 @@ const deleteMovie = (req,res) => {
     _id:req.params.id
   })
   .then((data)=>{
-    res.send(data)
+    res.status(200).send(data)
     getAPIMovie()
   })
   .catch((err)=>{
-    res.send(err)
+    res.status(500).send(err)
   })
 }
 

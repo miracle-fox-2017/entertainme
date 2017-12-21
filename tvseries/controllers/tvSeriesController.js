@@ -64,11 +64,11 @@ const deleteTV = (req,res) => {
     _id:req.params.id
   })
   .then(data =>{
-    res.send(data)
+    res.status(200).send(data)
     getAPItvseries()
   })
   .catch((err)=>{
-    res.send(err)
+    res.status(500).send(err)
   })
 }
 
