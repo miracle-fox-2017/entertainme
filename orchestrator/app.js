@@ -58,7 +58,7 @@ const ccc =(req, res, next) => {
   client.get('eternal', function (err, data){
     if (err) throw err
     if (data !== null) {
-      res.sen(JSON.parse(data))
+      res.send(JSON.parse(data))
     } else {
       next()
     }

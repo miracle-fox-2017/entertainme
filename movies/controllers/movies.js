@@ -68,8 +68,23 @@ const updateMovie = (req, res) => {
   })
 }
 
+const removeMovie = (req, res) => {
+  Movie.findByIdAndRemove(req.params.id)
+    .then(remove => {
+      res.status(200).send({
+        status: "Remove",
+        remove
+      })
+      getAPIMovies()
+    })
+    .catch(err => {
+      res.status(500).send(err)
+    })
+}
+
 module.exports = {
   getAllMovies,
   postMovies,
-  updateMovie
+  updateMovie,
+  removeMovie
 };

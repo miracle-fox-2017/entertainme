@@ -68,8 +68,23 @@ const updateSerie = (req, res) => {
   })
 }
 
+const removeSerie = (req, res) => {
+  Seri.findByIdAndRemove(req.params.id)
+  .then(remove => {
+    res.status(200).send({
+      status: "Remove",
+      remove
+    })
+    getAPISeries()
+  })
+  .catch(err => {
+    res.status(500).send(err)
+  })
+}
+
 module.exports = {
   getAllSeries,
   postSeri,
-  updateSerie
+  updateSerie,
+  removeSerie
 };
