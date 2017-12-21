@@ -4,19 +4,26 @@ const MongoClient = require('mongodb').MongoClient
  
 // Connection URL
 const url = 'mongodb://vbagustinus:anakjalanan@smartshop-shard-00-00-hibsb.mongodb.net:27017,smartshop-shard-00-01-hibsb.mongodb.net:27017,smartshop-shard-00-02-hibsb.mongodb.net:27017/entertainme?ssl=true&replicaSet=smartshop-shard-0&authSource=admin';
-let getAllBooks = (req, res) => {
+
+app.get('/movie', (req, res) => {
   MongoClient.connect(url, function(err, db) {
     if(!err){
-      console.log("Connected to get all books");
+      console.log("Connected to get all movies");
       // SHow document
-      db.collection('books').find().toArray(function(err, dataBooks) {
-        res.send(dataBooks)
+      db.collection('movies')
+        .find()
+        .toArray(function(err, Movies) {
+          res.json({
+            info: 'movie found succesfully',
+            data: Movies
+          })
       });
     }
   });
-}
-app.get('/api/movies', getAllBooks )
+})
 
-app.listen(3001, () => {
-  console.log('Service Movie PORT 3001')
+app.listen(3001, (err) => {
+  if(!err) {
+    console.log('Service Movie PORT 3001')
+  }
 })
