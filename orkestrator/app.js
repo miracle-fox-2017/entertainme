@@ -1,5 +1,9 @@
 const app = require('express')()
 const logger = require('morgan')
+const bodyParser = require('body-parser')
+
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 
 const entertainme = require('./routes/entertainme')
 
