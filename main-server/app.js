@@ -12,10 +12,8 @@ app.use(responseTime())
 app.get('/entertainme', (req, res) => {
   try {
     cache.get('entertainme', async (err, data) => {
-      // console.log(new Date(), 'INI ENTTERTAIN')
       if (data) {
-          console.log('LAMA dari redis', new Date())
-          res.json(JSON.parse(data))
+        res.json(JSON.parse(data))
       } else {
         const movies = await Axios.get('http://localhost:3001/movie')
         const series = await Axios.get('http://localhost:3002/tv')
@@ -24,7 +22,6 @@ app.get('/entertainme', (req, res) => {
           series: series.data
         }
         cache.setex('entertainme', 20, JSON.stringify(data))
-        console.log('BARU')
         res.json(data)
       }
     })
