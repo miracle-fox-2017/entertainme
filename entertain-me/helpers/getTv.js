@@ -14,7 +14,7 @@ const tvs = (cb) => {
     } else {
       axios.get('http://localhost:3002/tv')
       .then(({ data }) => {
-        cache.set('tv', JSON.stringify(data))
+        cache.set('tv', JSON.stringify(data), 'EX', 5)
         cb(null, data)
       })
       .catch(err => {

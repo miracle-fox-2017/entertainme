@@ -14,7 +14,7 @@ const movies = (cb) => {
     } else {
       axios.get('http://localhost:3001/movie')
       .then(({ data }) => {
-        cache.set('movies', JSON.stringify(data))
+        cache.set('movies', JSON.stringify(data), 'EX', 5)
         cb(null, data)
       })
       .catch(err => {
