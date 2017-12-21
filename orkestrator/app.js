@@ -4,7 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
+var responseTime = require('response-time')
 var index = require('./routes/index');
 var entertainme = require('./routes/entertainme');
 
@@ -25,6 +25,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(responseTime())
 app.use('/', index);
 app.use('/entertainme', entertainme);
 

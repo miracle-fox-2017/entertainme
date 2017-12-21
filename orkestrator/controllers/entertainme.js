@@ -16,7 +16,6 @@ const listAll = async (req, res) => {
     movies: movie.data,
     tvSeries: tv.data
   }
-  console.log(getAll)
   client.get('coba', (err, reply) => {
     if(reply) {
       let entertainme = JSON.parse(reply)
@@ -27,13 +26,26 @@ const listAll = async (req, res) => {
       })
     }
     else {
-      client.setex('coba', 10, JSON.stringify(listData))
+      client.setex('coba', 20, JSON.stringify(listData))
       res.json(listData)
     }
   })
+}
+
+const listUncache = async (req, res) => {
+  let movie = await axios.get('http://localhost:3001/movies')
+  let tv = await axios.get('http://localhost:3002/tv')
+
+  let listData = {
+    movies: movie.data,
+    tvSeries: tv.data
+  }
+
+  res.json(listData)
   
 }
 
 module.exports = { 
-  listAll
+  listAll,
+  listUncache
 }
