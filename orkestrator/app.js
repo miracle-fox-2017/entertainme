@@ -8,8 +8,6 @@ const express = require('express'),
 
 app.use(morgan('dev'))
 
-
-
 app.get('/', (req, res) => {
   client.get('alldata', async function (err, reply) {
     if (err) {
@@ -18,8 +16,8 @@ app.get('/', (req, res) => {
       res.json(JSON.parse(reply))
     } else {
       const movies = await axios.get('http://localhost:3001/api/movies')
-      const tvs = await axios.get('http://localhost:3002/api/tv')
-      client.setex('alldata', 10, JSON.stringify({
+      const tvs = await axios.get('http://localhost:3002/api/tvs')
+      client.setex('alldata', 30, JSON.stringify({
         movies: movies.data,
         tvs: tvs.data
       }))

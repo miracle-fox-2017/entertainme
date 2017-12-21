@@ -1,4 +1,7 @@
 const Movies = require('../models/moviesModel')
+const axios = require('axios')
+const redis = require('redis')
+const client = redis.createClient()
 
 const createMovie = (req, res) => {
   Movies.create({
@@ -9,7 +12,19 @@ const createMovie = (req, res) => {
     tag: req.body.tag
   })
     .then((dataMovie) => {
+      fetchAPI(dataMovie)
       res.send(dataMovie)
+    })
+    .catch((reason) => {
+      res.send(reason)
+    })
+}
+
+const fetchAPI = (dataMovie) => {
+  axios.get('http://localhost:3000/')
+    .then((result) => {
+      result.data.movies.push(dataMovie)
+      client.setex('alldata', 30, JSON.stringify(result.data))
     })
     .catch((reason) => {
       res.send(reason)
@@ -26,7 +41,17 @@ const getDataMovie = (req, res) => {
     })
 }
 
+const deleteDataMovie = (req, res) => {
+  Movies.findByIdAndRemove(req.params.id)
+    .then((dataMovie) => {
+      res.send(dataMovie)
+    })
+    .catch((reason) => {
+      res.send(reason)
+    })
+}
 module.exports = {
   createMovie,
-  getDataMovie
+  getDataMovie,
+  deleteDataMovie
 }
