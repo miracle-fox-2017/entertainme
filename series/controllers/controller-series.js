@@ -1,4 +1,5 @@
 const Series = require('../models/model-movies');
+const Version = require('../models/model-version');
 
 module.exports = {
   allSeries : (req,res) => {
@@ -12,6 +13,13 @@ module.exports = {
         info : "tv cannot be found",
         data : response
       })
+    });
+  },
+  version : (req,res) => {
+    Version.findOne().then(response => {
+      res.json(response);
+    }).catch(err => {
+      res.send(err)
     });
   }
 };

@@ -24,15 +24,20 @@ app.get('/entertainme/cache',(req,res) => {
     console.log(err);
   });
   cache.get('entertainment',async (err,data) => {
+    const moviesVersion = await axios.get('http://localhost:3001/movie/ver');
+    const seriesVersion = await axios.get('http://localhost:3002/tv/ver');
+    const entertainment = JSON.parse(data);
     if(err){
       console.log(err);
       res.send('error');
-    }else if(data == null){
+    }else if(data == null || entertainment.moviesVersion !== moviesVersion.data.version || entertainment.seriesVersion !== seriesVersion.data.version){
       const getMovies = await axios.get('http://localhost:3001/movie');
       const getSeries = await axios.get('http://localhost:3002/tv');
       const dataJson = {
         movies : getMovies.data,
-        series : getSeries.data
+        series : getSeries.data,
+        moviesVersion : moviesVersion.data.version,
+        seriesVersion : seriesVersion.data.version
       }
       cache.set('entertainment',JSON.stringify(dataJson));
       res.json(dataJson);
