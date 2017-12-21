@@ -1,5 +1,4 @@
-require('dotenv').config()
-const mongoose = require('mongoose').connect(process.env.DB)
+const mongoose = require('mongoose')
 
 const movieSchema = mongoose.Schema({
   title: String,

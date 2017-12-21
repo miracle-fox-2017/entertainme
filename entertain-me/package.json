@@ -5,6 +5,7 @@
   "license": "MIT",
   "dependencies": {
     "axios": "^0.17.1",
+    "bluebird": "^3.5.1",
     "express": "^4.16.2",
     "redis": "^2.8.0",
     "response-time": "^2.3.2"
