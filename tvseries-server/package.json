@@ -1,0 +1,19 @@
+{
+  "name": "tvseries-server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Ahmad Nizar",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.17.1",
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "mongoose": "^4.13.7",
+    "morgan": "^1.9.0",
+    "nodemon": "^1.14.1"
+  },
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  }
+}

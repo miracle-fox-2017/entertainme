@@ -1,0 +1,20 @@
+{
+  "name": "orchestrator-server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Ahmad Nizar",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.17.1",
+    "bluebird": "^3.5.1",
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "morgan": "^1.9.0",
+    "redis": "^2.8.0",
+    "response-time": "^2.3.2"
+  },
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  }
+}
