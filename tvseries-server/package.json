@@ -1,0 +1,11 @@
+{
+  "name": "tvseries-server",
+  "version": "1.0.0",
+  "main": "app.js",
+  "author": "Agustinus",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.17.1",
+    "express": "^4.16.2"
+  }
+}
