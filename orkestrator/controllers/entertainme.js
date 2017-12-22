@@ -8,41 +8,47 @@ client.on("connect", () => {
 })
 
 const listAll = async (req, res) => {
-  let getAll = await client.get('coba')
-  let movie = await axios.get('http://localhost:3001/movies')
-  let tv = await axios.get('http://localhost:3002/tv')
-
-  let listData = {
-    movies: movie.data,
-    tvSeries: tv.data
+  try{
+    let getAll = await client.get('coba')
+    let movie = await axios.get('http://localhost:3001/movies')
+    let tv = await axios.get('http://localhost:3002/tv')
+  
+    let listData = {
+      movies: movie.data,
+      tvSeries: tv.data
+    }
+    client.get('coba', (err, reply) => {
+      if(reply) {
+        let entertainme = JSON.parse(reply)
+  
+        res.status(200).json({
+          movies: entertainme.movies,
+          tvSeries: entertainme.tvSeries
+        })
+      }
+      else {
+        client.setex('coba', 20, JSON.stringify(listData))
+        res.status(200).json(listData)
+      }
+    })
+  } catch(e) {
+    res.status(500).json(e)
   }
-  client.get('coba', (err, reply) => {
-    if(reply) {
-      let entertainme = JSON.parse(reply)
-
-      res.json({
-        movies: entertainme.movies,
-        tvSeries: entertainme.tvSeries
-      })
-    }
-    else {
-      client.setex('coba', 20, JSON.stringify(listData))
-      res.json(listData)
-    }
-  })
 }
 
 const listUncache = async (req, res) => {
-  let movie = await axios.get('http://localhost:3001/movies')
-  let tv = await axios.get('http://localhost:3002/tv')
+  try {
+    let movie = await axios.get('http://localhost:3001/movies')
+    let tv = await axios.get('http://localhost:3002/tv')
 
-  let listData = {
-    movies: movie.data,
-    tvSeries: tv.data
+    let listData = {
+      movies: movie.data,
+      tvSeries: tv.data
+    }
+    res.status(200).json(listData)
+  } catch (e) {
+    res.status(500).json(e)
   }
-
-  res.json(listData)
-  
 }
 
 module.exports = { 
