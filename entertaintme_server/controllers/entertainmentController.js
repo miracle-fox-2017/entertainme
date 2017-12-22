@@ -63,14 +63,24 @@ const findVersion = (req, res) => {
     }).catch(err => res.status(500).send({ message: err.message }));
 }
 
+const fetchFromAPI = async () => {
+  const getMovies = await axios.get('http://localhost:3001/movie/')
+  const getTvSeries = await axios.get('http://localhost:3002/tv/')
+
+  const apiData = {
+    movies: getMovies.data.data,
+    series: getTvSeries.data.data
+  }
+
+  console.log(`FETCH API-------- ${apiData}`)
+
+  return apiData
+}
+
 const fetchEntertaintment = async (req, res) => {
   client.on("error", function (err) {
     console.log("Error " + err);
   });
-
- /*  const getVersion = await axios.get('http://localhost:3000/version/')
-  const getMovies = await axios.get('http://localhost:3001/movie/')
-  const getTvSeries = await axios.get('http://localhost:3002/tv/') */
 
   const getVersion = await axios.get('http://localhost:3000/version/')
   const getVersionCache = await getCacheData('version')
@@ -78,28 +88,24 @@ const fetchEntertaintment = async (req, res) => {
   
   client.set('version', getVersion.data.version)
 
+  console.log(`========== Data version API:  `, getVersion.data.version)
+
   if (getVersionCache < +getVersion.data.version) {
-    client.del('entData')
+    console.log(`~~~~~~~~~~~~~ NEW VERSION`)
+    // client.del('entData')
     client.set('version', +getVersion.data.version)
+    
+    client.set('entData', JSON.stringify(await fetchFromAPI()))
+    res.send(await fetchFromAPI())
   }
 
-  if (getEntCache === null) {
-    console.log(`============FETCHING FROM API =====`)
-    const getMovies = await axios.get('http://localhost:3001/movie/')
-    const getTvSeries = await axios.get('http://localhost:3002/tv/')
-
-    const apiData = {
-      movies: getMovies.data.data,
-      series: getTvSeries.data.data
-    }
-
-    client.set('entData', JSON.stringify(apiData))
-
-    await res.send(apiData)
+  if (getEntCache === null) {    
+    client.set('entData', JSON.stringify(await fetchFromAPI()))
+    res.send(await fetchFromAPI())
 
   } else {
     console.log(`--------------- FETCHING FROM CACHE =====`)
-    await res.send(JSON.parse(getEntCache))
+    res.send(JSON.parse(getEntCache))
   }
 }
 
