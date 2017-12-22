@@ -19,15 +19,9 @@ app.get('/', async (req, res) => {
   var Movie = await getMovie()
   var Series = await getSeries()
 
-  res.json({
-    movie: {
-      "info": "find successful",
-      "data": Movie.data
-    },
-    Series: {
-      "info": "find successful",
-      "data": Series.data
-    }
+  res.send({
+    movies: Movie.data,
+    series: Series.data
   })
 })
 
