@@ -5,7 +5,11 @@ const MongoClient = require('mongodb').MongoClient
  
 // Connection URL
 const url = 'mongodb://vbagustinus:anakjalanan@smartshop-shard-00-00-hibsb.mongodb.net:27017,smartshop-shard-00-01-hibsb.mongodb.net:27017,smartshop-shard-00-02-hibsb.mongodb.net:27017/entertainme?ssl=true&replicaSet=smartshop-shard-0&authSource=admin';
-
+let version = Math.random()
+app.get('/tv/version', (req, res) => {
+  console.log('cekVersion')
+  res.json({version:version})
+})
 app.get('/tv', (req, res) => {
   MongoClient.connect(url, function(err, db) {
     if(!err){
@@ -15,8 +19,11 @@ app.get('/tv', (req, res) => {
         .find()
         .toArray(function(err, Series) {
           res.json({
-            info: 'tv found succesfully',
-            data: Series
+            data:{
+              info: 'tv found succesfully',
+              data: Series
+            },
+            version: version
           })
       });
     }
