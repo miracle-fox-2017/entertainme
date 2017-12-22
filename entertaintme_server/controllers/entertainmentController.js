@@ -68,43 +68,39 @@ const fetchEntertaintment = async (req, res) => {
     console.log("Error " + err);
   });
 
-  const getVersion = await axios.get('http://localhost:3000/version/')
+ /*  const getVersion = await axios.get('http://localhost:3000/version/')
   const getMovies = await axios.get('http://localhost:3001/movie/')
-  const getTvSeries = await axios.get('http://localhost:3002/tv/')
+  const getTvSeries = await axios.get('http://localhost:3002/tv/') */
 
+  const getVersion = await axios.get('http://localhost:3000/version/')
   const getVersionCache = await getCacheData('version')
-  const getMovieCache = await getCacheData('movies')
-  const getTvCache = await getCacheData('tvSeries')
-
-  console.log('---- API VERSION ', +getVersion.data.version)
-  console.log('---- CACHE VERSION ', +getVersionCache)
-
-
-  if (getVersionCache == null) {
-    console.log('---- SET CACHE VERSION FROM API ', +getVersion.data.version)
-    client.set('version', +getVersion.data.version)
-  }
+  const getEntCache = await getCacheData('entData')
+  
+  client.set('version', getVersion.data.version)
 
   if (getVersionCache < +getVersion.data.version) {
-    client.del('movies')
-    client.del('tvSeries')
+    client.del('entData')
     client.set('version', +getVersion.data.version)
   }
 
-  if (getMovieCache == null) {
-    console.log('---- SET CACHE MOVIE FROM API ')
-    client.set('movies', JSON.stringify(getMovies.data.data))
-  }
+  if (getEntCache === null) {
+    console.log(`============FETCHING FROM API =====`)
+    const getMovies = await axios.get('http://localhost:3001/movie/')
+    const getTvSeries = await axios.get('http://localhost:3002/tv/')
 
-  if (getTvCache == null) {
-    console.log('---- SET CACHE TV FROM API ')
-    client.set('tvSeries', JSON.stringify(getTvSeries.data))
-  }
+    const apiData = {
+      movies: getMovies.data.data,
+      series: getTvSeries.data.data
+    }
 
-  await res.send({
-    movies: getMovieCache == null ? getMovies.data.data : JSON.parse(getMovieCache),
-    series: getTvCache == null ? getTvSeries.data.data : JSON.parse(getTvCache)
-  })
+    client.set('entData', JSON.stringify(apiData))
+
+    await res.send(apiData)
+
+  } else {
+    console.log(`--------------- FETCHING FROM CACHE =====`)
+    await res.send(JSON.parse(getEntCache))
+  }
 }
 
 module.exports = {
