@@ -15,6 +15,18 @@
 | :3002/tv/:id | PUT | params.id, {json} | edit specific tv |
 | :3002/tv/:id | DELETE | params.id | delete specific tv |
 
+## json data structure requirement
+```js
+{
+  title: String,
+  year: Number,
+  overview: String,
+  poster_path: String,
+  popularity: Number,
+  tag: [],
+  status: String
+}
+```
 
 ## use this app?
 1. Start movie server run on port 3001
