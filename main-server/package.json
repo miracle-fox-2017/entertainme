@@ -1,0 +1,13 @@
+{
+  "name": "main-server",
+  "version": "1.0.0",
+  "main": "app.js",
+  "author": "Agustinus",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.17.1",
+    "express": "^4.16.2",
+    "redis": "^2.8.0",
+    "response-time": "^2.3.2"
+  }
+}
